@@ -49,7 +49,9 @@
 window.onload = () => { $('body').fadeIn(300) ; $('#rngMode')[0].innerHTML = rngModes[rngm] }
 // ----------------------------------------------------------------
 var   rngm = 0, nx = 63484, tags = []
+var num = 1;
 const rngModes = ['Chaos', 'Popular']
+function addone() {num++;}
 function aone()    { 
 	let tag = ''
 	for (let w = 0, wp = 4096; w < wp; w++) { 
@@ -58,12 +60,12 @@ function aone()    {
 		for (let i = 0, l = tags.length; i < l; i++) if ((tag === '') || (tags[i] === tag)) { tag = '' ; break } ; if (tag !== '') { tags.push(tag) ; break }
 	}
 }
-function one()     { tags = [] ; aone() }
-function gen()     { tags = [] ; for (let i=0, l=3; i<l; i++) aone() }
+function one()     { tags = [] ; aone(); num = 1;}
+function gen()     { tags = [] ; for (let i=0, l=num; i<l; i++) aone() }
 function outTags() { for (let i=0, l=tags.length; i<l; i++) out((i>0?'<span class="ic">, </span>':'') + '<span class="tags" title="' + db.probs[ tags[i] ] + '">' + tags[i] + '</span>') ; out() }
 function rngMode() { rngm = (rngm+1) % rngModes.length ; $('#rngMode')[0].innerHTML = rngModes[rngm] }
 on('#one',     () => { one()  ; outTags() })
-on('#aone',    () => { aone() ; outTags() })
+on('#aone',    () => { addone() ; outTags() })
 on('#gen',     () => { gen()  ; outTags() })
 on('#rngMode', rngMode)
 // ----------------------------------------------------------------
